@@ -10,10 +10,21 @@ class ChompGame:
         self.p1 = Player()
         self.p2 = Player()
         self.turn = random.choice(self.p1, self.p2)
+        self.size = ['Choose size (3,4) or (5,6)']
+    def play(self,game_over):
+         import random
+         self.game_over =  game_over
+         return f'size({self.size},{self.rows},{self.cols})'
+         print(Board)
+         Player = random.choice(self.possible_moves)
+         return f'player({possible_moves}'
+         Players = ["Player 2 goes"]
+         if self.game_over:
+          print(Board)
+          game_over = ["Game over start the game again"]
 
     def __repr__(self):
-        pass
-
+             pass
 
 class Board:
     def __init__(self, rows, cols):
