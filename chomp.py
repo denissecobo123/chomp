@@ -8,7 +8,7 @@ EMOJI = {-1: '\u2612', 0: ' ', 1: '\u2610'}
 class ChompGame:
     """Contains the control flow for the game"""
     def __init__(self, n_players=2, size=(3, 4)):
-        self.n_players = 2
+        self.n_players = n_players
         self.size = size
         self.board = Board(*size)
         self.game_over = False
@@ -28,16 +28,20 @@ class ChompGame:
             if self.board.state[-1][0] == 0:
                 self.game_over = True
                 self.current_player.wins += 1
+                self.current_player.loses -= 1
             else:
-                self.game_over= True
-                self.current_player = self.next_player
+
+                self.game_over = True
+                self.current_player, self.next_player = self.next_player, self.current_player
+                self.current_player.cycle()
+                self.next_player.cycle()
 
     def setup(self):
         for i in range(1, self.n_players + 1):
             print(f'***Player {i}***')
             self.players.append(Player())
 
-        self.current_player = random.choice(self.players)
+            self.current_player = random.choice(self.players)
 
     def move(self):
         coord_str = input("Enter the coordinates for your move. (e.g. A3)")
@@ -74,12 +78,13 @@ class Board:
 
 class Player:
     def __init__(self):
-        self.name = input("\tEnter your name: ")
+        self.name = input("\tEnter your name:")
+        self.name = input("\tEnter your name too:")
         self.wins = 0
 
     def __repr__(self):
         return f'Player({self.name})'
 
+    @property
     def __str__(self):
         return self.name
-
